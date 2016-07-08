@@ -7,7 +7,7 @@ public class WorldSpaceCrosshair : MonoBehaviour {
     Sprite crosshair;
 
     [SerializeField]
-    Camera camera;
+    Camera targetCamera;
 
     [SerializeField]
     float cursorDistance = 5f;
@@ -18,13 +18,13 @@ public class WorldSpaceCrosshair : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-
+        DrawFixed();
 	}
 
     void Update ()
     {
         RaycastHit hit;
-        if (Physics.Raycast(new Ray(camera.transform.position, camera.transform.forward), out hit))
+        if (Physics.Raycast(new Ray(targetCamera.transform.position, targetCamera.transform.forward), out hit))
         {
             //check if collision has IInteractable
             IInteractable interactable =
@@ -45,23 +45,23 @@ public class WorldSpaceCrosshair : MonoBehaviour {
                 DrawFixed();
             }
         }
+        else
+        {
+            HandleInteraction(null);
+            DrawFixed();
+        }
 
         FaceCamera();
     }
 
     private void DrawFixed()
     {
-        transform.position = camera.transform.forward * cursorDistance;
-    }
-
-    private void FindInteractable()
-    {
-        
+        transform.position = targetCamera.transform.position + targetCamera.transform.forward * cursorDistance;
     }
 
     private void FaceCamera()
     {
-        transform.LookAt(camera.transform);
+        transform.LookAt(targetCamera.transform);
     }
 
     private IInteractable lastInteractable = null;
@@ -75,7 +75,7 @@ public class WorldSpaceCrosshair : MonoBehaviour {
         {
             if(lastInteractable != null)
             {
-                interactable.OnGazeLeave();
+                lastInteractable.OnGazeLeave();
             }
         }
         else if(interactable != null)
@@ -98,6 +98,8 @@ public class WorldSpaceCrosshair : MonoBehaviour {
                 interactable.OnMouseUp();
             }
         }
+
+        lastInteractable = interactable;
 
         
     }
