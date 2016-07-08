@@ -2,19 +2,26 @@
 using System.Collections;
 using System;
 
+[RequireComponent(typeof(Renderer))]
 public class InteractableCube : MonoBehaviour, IInteractable {
 
     [SerializeField]
     Material gazeEnter;
 
+    [SerializeField]
+    Material onMouseDown;
+
+    private Renderer myRenderer;
+    private Material defaultMaterial;
+
     public void OnGazeEnter()
     {
-        Debug.Log("GazeEnter");
+        myRenderer.material = gazeEnter;
     }
 
     public void OnGazeLeave()
     {
-        Debug.Log("GazeLeave");
+        myRenderer.material = defaultMaterial;
     }
 
     public void OnGazeStay()
@@ -24,17 +31,20 @@ public class InteractableCube : MonoBehaviour, IInteractable {
 
     public void OnMouseDown()
     {
-        Debug.Log("OnMouseDown");
+        myRenderer.material = onMouseDown;
     }
 
     public void OnMouseUp()
     {
-        Debug.Log("OnMouseUp");
+        myRenderer.material = gazeEnter;
     }
 
     // Use this for initialization
-    void Start () {
-	
+    void Start ()
+    {
+        myRenderer = GetComponent<Renderer>();
+        defaultMaterial = myRenderer.material;
+
 	}
 	
 	// Update is called once per frame

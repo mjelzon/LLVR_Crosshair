@@ -247,7 +247,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca459b90f02e04a4982e60e6425d7069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gazeEnter: {fileID: 0}
+  gazeEnter: {fileID: 2100000, guid: 019006632aaf46346b988d308219fa81, type: 2}
+  onMouseDown: {fileID: 0}
 --- !u!1 &656977819
 GameObject:
   m_ObjectHideFlags: 0
